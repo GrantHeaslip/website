@@ -1,0 +1,6 @@
+*.code-workspace
+.env
+node_modules
+rev-manifest.json
+scratch.*
+static-build

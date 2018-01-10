@@ -1,0 +1,7 @@
+<%
+static = (fileName) => {
+    let outputFileName = hashedFileNames[fileName] || fileName;
+
+    return `/static/${outputFileName}`;
+}
+%>
