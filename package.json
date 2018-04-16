@@ -19,16 +19,16 @@
     },
     "license": "BSD-3-Clause",
     "dependencies": {
-        "del": "~3.0.0",
-        "ejs": "~2.5.7",
-        "gulp": "~3.9.1",
-        "gulp-clean-css": "~3.9.2",
-        "gulp-rev": "~8.1.1",
-        "gulp-rev-replace": "~0.4.3",
-        "hapi": "~17.2.0",
-        "inert": "~5.0.1",
-        "run-sequence": "~2.2.1",
-        "throng": "~4.0.0",
-        "vision": "~5.3.0"
+        "del": "^3.0.0",
+        "ejs": "^2.5.8",
+        "gulp": "^3.9.1",
+        "gulp-clean-css": "^3.9.3",
+        "gulp-rev": "^8.1.1",
+        "gulp-rev-replace": "^0.4.4",
+        "hapi": "^17.3.1",
+        "inert": "^5.1.0",
+        "run-sequence": "^2.2.1",
+        "throng": "^4.0.0",
+        "vision": "^5.3.2"
     }
 }
