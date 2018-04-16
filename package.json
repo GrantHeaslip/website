@@ -1,6 +1,6 @@
 {
     "name": "website",
-    "version": "1.0.1",
+    "version": "1.0.2",
     "description": "The code that builds, runs, and is served by grant.heaslip.me. Powered by Node.js and the Hapi framework.",
     "homepage": "https://grant.heaslip.me/",
     "author": {
@@ -10,7 +10,7 @@
     },
     "private": true,
     "engines": {
-        "node": "~9.3.0"
+        "node": "~9.11.1"
     },
     "main": "server.js",
     "scripts": {

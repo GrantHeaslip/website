@@ -64,9 +64,9 @@ async function start() {
 
     // Add canonical protocol+host redirect extension function
     server.ext('onPostHandler', (request, h) => {
-        let requestHost = request.info.host;
-        let requestPath = request.path;
-        let requestProtocol = request.headers['x-forwarded-proto'] || 'http';
+        const requestHost = request.info.host;
+        const requestPath = request.path;
+        const requestProtocol = request.headers['x-forwarded-proto'] || 'http';
 
         if (
             typeof config.canonicalHost !== 'undefined' &&
