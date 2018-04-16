@@ -1,5 +1,10 @@
 # website changelog
 
+## 1.0.2 [2018-04-16]
+
+### Changes
+* Increased specified Node.js version from ~9.3.0 to ~9.11.1.
+
 ## 1.0.1 [2018-04-15]
 
 ### Improvements
