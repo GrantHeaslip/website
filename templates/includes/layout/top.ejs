@@ -13,7 +13,7 @@
         <meta name="description" content="<%= metaDescription %>" />
         <meta name="og:description" content="<%= metaDescription %>" />
         <meta name="twitter:description" content="<%= metaDescription %>" />
-        <% if (canonicalUrl) { %>
+        <% if (typeof canonicalUrl !== 'undefined') { %>
             <link rel="canonical" href="<%= canonicalUrl %>" />
             <meta name="og:url" content="<%= canonicalUrl %>" />
         <% } %>
