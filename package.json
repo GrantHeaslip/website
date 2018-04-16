@@ -10,7 +10,7 @@
     },
     "private": true,
     "engines": {
-        "node": "~9.3.0"
+        "node": "~9.11.1"
     },
     "main": "server.js",
     "scripts": {
