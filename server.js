@@ -1,5 +1,6 @@
 'use strict';
 
+const Boom = require('boom');
 const hapi = require('hapi');
 const ejs = require('ejs');
 const inert = require('inert');
@@ -79,6 +80,30 @@ async function start() {
         }
 
         // request.setUrl('/test');
+        return h.continue;
+    });
+
+
+    // Intercept Inert’s directory handler JSON errors and render error view
+    // instead. This feels like a bad solution, but it appears to be the only
+    // way: https://github.com/hapijs/inert/issues/41
+    server.ext('onPreResponse', (request, h) => {
+        if ( !(request.response instanceof Boom) ) {
+            return h.continue;
+        }
+
+        const boomError = request.response;
+
+        if (
+            boomError.typeof === Boom.notFound &&
+            boomError.output.statusCode === 404 &&
+            typeof boomError.data.path !== 'undefined' &&
+            boomError.data.path.indexOf('static-build') !== -1
+        ) {
+            return h.view('error')
+                .code(404);
+        }
+
         return h.continue;
     });
 
