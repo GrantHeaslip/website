@@ -7,9 +7,9 @@ const inert = require('inert');
 const throng = require('throng');
 const vision = require('vision');
 
-const config = require('./lib/config').config;
-const routes = require('./lib/routes').routes;
-const utils = require('./lib/utils').utils;
+const config = require('./lib/config');
+const routes = require('./lib/routes');
+const utils = require('./lib/utils');
 
 throng({
     workers: config.workers,
