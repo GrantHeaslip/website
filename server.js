@@ -10,6 +10,7 @@ const vision = require('vision');
 const config = require('./lib/config');
 const routes = require('./lib/routes');
 const utils = require('./lib/utils');
+const viewHelpers = require('./lib/view-helpers');
 
 throng({
     workers: config.workers,
@@ -47,6 +48,9 @@ async function start() {
     await server.register(inert);
     await server.register(vision);
 
+    const hashedFileNames = await utils.getRevManifest();
+    const partiallyAppliedStaticHelper = viewHelpers.static.bind(null, hashedFileNames);
+
     // Initialize Vision view manager
     server.views({
         engines: { ejs: ejs },
@@ -55,7 +59,7 @@ async function start() {
         context: {
             'appEnv': config.env,
             'appVersion': await utils.getAppVersion(),
-            'hashedFileNames': await utils.getRevManifest(),
+            'static': partiallyAppliedStaticHelper,
         },
     });
 
