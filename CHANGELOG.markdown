@@ -1,5 +1,10 @@
 # website changelog
 
+## 1.0.4 [2018-07-15]
+
+### Changes
+* Updated dependencies.
+
 ## 1.0.3 [2018-04-16]
 
 Contrived release to test deployment.
