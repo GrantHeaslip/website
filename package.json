@@ -10,7 +10,7 @@
     },
     "private": true,
     "engines": {
-        "node": "~9.11.1"
+        "node": "^10.6.0"
     },
     "main": "server.js",
     "scripts": {
@@ -20,16 +20,16 @@
     "license": "BSD-3-Clause",
     "dependencies": {
         "del": "^3.0.0",
-        "ejs": "^2.5.8",
+        "ejs": "^2.6.1",
         "gulp": "^3.9.1",
-        "gulp-clean-css": "^3.9.3",
+        "gulp-clean-css": "^3.9.4",
         "gulp-rev": "^8.1.1",
         "gulp-rev-replace": "^0.4.4",
-        "hapi": "^17.3.1",
+        "hapi": "^17.5.2",
         "inert": "^5.1.0",
         "run-sequence": "^2.2.1",
         "throng": "^4.0.0",
-        "vision": "^5.3.2"
+        "vision": "^5.3.3"
     },
     "eslintConfig": {
         "extends": "eslint:recommended",
