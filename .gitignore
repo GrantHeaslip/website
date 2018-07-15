@@ -1,5 +1,6 @@
 *.code-workspace
 .env
+.vscode/*
 node_modules
 rev-manifest.json
 scratch.*
