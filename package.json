@@ -14,8 +14,9 @@
     },
     "main": "server.js",
     "scripts": {
+        "build": "node node_modules/gulp/bin/gulp.js build",
         "start": "node server.js",
-        "heroku-postbuild": "gulp build"
+        "heroku-postbuild": "node node_modules/gulp/bin/gulp.js build"
     },
     "license": "BSD-3-Clause",
     "dependencies": {
