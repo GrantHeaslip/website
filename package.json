@@ -1,12 +1,12 @@
 {
     "name": "website",
-    "version": "1.0.4",
-    "description": "The code that builds, runs, and is served by grant.heaslip.me. Powered by Node.js and the Hapi framework.",
-    "homepage": "https://grant.heaslip.me/",
+    "version": "1.0.5",
+    "description": "The code that builds and serves g.hslp.ca. Powered by Node.js and the Hapi framework.",
+    "homepage": "https://g.hslp.ca/",
     "author": {
         "name": "Grant Heaslip",
-        "email": "grant@heaslip.me",
-        "url": "https://grant.heaslip.me/"
+        "email": "g@hslp.ca",
+        "url": "https://g.hslp.ca/"
     },
     "private": true,
     "engines": {
