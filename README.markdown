@@ -1,6 +1,6 @@
 # website
 
-The code that builds, runs, and is served by [grant.heaslip.me](https://grant.heaslip.me/). Powered by [Node.js][node-js] and the [Hapi framework][hapi].
+The code that builds and serves [g.hslp.ca](https://g.hslp.ca/). Powered by [Node.js][node-js] and the [Hapi framework][hapi].
 
 The project includes code for serving an index page, 404 pages, and never-expiring static assets with MD5-hashed file names (achieved with [gulp-rev][] and [gulp-rev-replace][]). It’s designed to be run on [Heroku][heroku], but isn’t tied to it.
 
