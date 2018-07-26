@@ -1,6 +1,6 @@
 {
     "name": "website",
-    "version": "1.0.4",
+    "version": "1.0.5",
     "description": "The code that builds and serves g.hslp.ca. Powered by Node.js and the Hapi framework.",
     "homepage": "https://g.hslp.ca/",
     "author": {

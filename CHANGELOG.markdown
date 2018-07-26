@@ -1,5 +1,11 @@
 # website changelog
 
+## 1.0.5 [2018-07-26]
+
+### Changes
+* Changed email address to g@hslp.ca (was grant@heaslip.me).
+* Changed URL to https://g.hslp.ca/ (was https://grant.heaslip.me/).
+
 ## 1.0.4 [2018-07-15]
 
 ### Changes
