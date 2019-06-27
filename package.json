@@ -14,23 +14,28 @@
     },
     "main": "server.js",
     "scripts": {
+        "heroku-local": "heroku local -f Procfile",
+        "heroku-local-debug": "heroku local -f Procfile-debug",
+        "heroku-local-dev": "heroku local -f Procfile-dev",
         "build": "node node_modules/gulp/bin/gulp.js build",
         "start": "node server.js",
         "heroku-postbuild": "node node_modules/gulp/bin/gulp.js build"
     },
     "license": "BSD-3-Clause",
     "dependencies": {
+        "@hapi/boom": "^7.4.2",
+        "@hapi/hapi": "^18.3.1",
+        "@hapi/inert": "^5.2.0",
+        "@hapi/vision": "^5.5.2",
         "del": "^3.0.0",
-        "ejs": "^2.6.1",
+        "ejs": "^2.6.2",
         "gulp": "^3.9.1",
         "gulp-clean-css": "^3.9.4",
         "gulp-rev": "^8.1.1",
         "gulp-rev-replace": "^0.4.4",
-        "hapi": "^17.5.2",
-        "inert": "^5.1.0",
+        "nodemon": "^1.19.1",
         "run-sequence": "^2.2.1",
-        "throng": "^4.0.0",
-        "vision": "^5.3.3"
+        "throng": "^4.0.0"
     },
     "eslintConfig": {
         "extends": "eslint:recommended",
@@ -63,5 +68,6 @@
                 "always"
             ]
         }
-    }
+    },
+    "devDependencies": {}
 }

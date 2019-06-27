@@ -1,23 +1,27 @@
 'use strict';
 
-const Boom = require('boom');
-const hapi = require('hapi');
+const Boom = require('@hapi/boom');
+const hapi = require('@hapi/hapi');
 const ejs = require('ejs');
-const inert = require('inert');
+const inert = require('@hapi/inert');
 const throng = require('throng');
-const vision = require('vision');
+const vision = require('@hapi/vision');
 
 const config = require('./lib/config');
 const routes = require('./lib/routes');
 const utils = require('./lib/utils');
 const viewHelpers = require('./lib/view-helpers');
 
-throng({
-    workers: config.workers,
-    lifetime: Infinity,
-    master: startMaster,
-    start: start,
-});
+if (config.env === 'development') {
+    start();
+} else {
+    throng({
+        workers: config.workers,
+        lifetime: Infinity,
+        master: startMaster,
+        start: start,
+    });
+}
 
 function startMaster() {
     console.info('Throng master process started.');
@@ -68,9 +72,8 @@ async function start() {
 
     // Add canonical protocol+host redirect extension function
     server.ext('onPostHandler', (request, h) => {
-        const requestHost = request.info.host;
-        const requestPath = request.path;
         const requestProtocol = request.headers['x-forwarded-proto'] || 'http';
+        const requestHost = request.info.host;
 
         if (
             typeof config.canonicalHost !== 'undefined' &&
@@ -80,7 +83,7 @@ async function start() {
                 requestProtocol !== config.canonicalProtocol
             )
         ) {
-            return h.redirect(`${config.canonicalProtocol}://${config.canonicalHost}${requestPath}`);
+            return h.redirect(`${config.canonicalProtocol}://${config.canonicalHost}${request.url.pathname}${request.url.search}`);
         }
 
         // request.setUrl('/test');
