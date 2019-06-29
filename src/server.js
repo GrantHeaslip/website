@@ -59,7 +59,7 @@ async function start() {
     server.views({
         engines: { ejs: ejs },
         relativeTo: __dirname,
-        path: 'templates',
+        path: '../templates',
         context: {
             'appEnv': config.env,
             'appVersion': await utils.getAppVersion(),

@@ -1,0 +1,16 @@
+{
+    "compilerOptions": {
+        "allowJs": true,
+        "checkJs": true,
+        "module": "CommonJS",
+        "moduleResolution": "Node",
+        "outDir": "src-build",
+        "resolveJsonModule": true,
+        "sourceMap": true,
+        "strict": false,
+        "target": "ES2017"
+    },
+    "include": [
+        "src/**/*"
+    ]
+}
