@@ -3,20 +3,19 @@ const gulp = require('gulp');
 const gulpCleanCss = require('gulp-clean-css');
 const gulpRev = require('gulp-rev');
 const gulpRevReplace = require('gulp-rev-replace');
-const runSequence = require('run-sequence');
 
-gulp.task('build', (done) => {
-    return runSequence(
-        'clean',
-        'stylesheets',
-        'preMinifiedScripts',
-        'favicons',
-        'appManifests',
-        done,
-    );
-});
+gulp.task(
+    'build',
+    gulp.series(
+        clean,
+        stylesheets,
+        preMinifiedScripts,
+        favicons,
+        appManifests,
+    )
+);
 
-gulp.task('appManifests', () => {
+function appManifests() {
     const manifest = gulp.src(process.cwd() + '/rev-manifest.json');
 
     return gulp.src(
@@ -36,13 +35,13 @@ gulp.task('appManifests', () => {
             merge: true
         }))
         .pipe(gulp.dest(process.cwd()));
-});
+}
 
-gulp.task('clean', function() {
+function clean() {
     return del(['rev-manifest.json', 'static-build/*']);
-});
+}
 
-gulp.task('favicons', () => {
+function favicons() {
     return gulp.src(['static/favicons/**/*'], {base: 'static'})
         .pipe(gulpRev())
         .pipe(gulp.dest('static-build'))
@@ -50,9 +49,9 @@ gulp.task('favicons', () => {
             merge: true
         }))
         .pipe(gulp.dest(process.cwd()));
-});
+}
 
-gulp.task('preMinifiedScripts', () => {
+function preMinifiedScripts() {
     return gulp.src(['static/js/**/*'], {base: 'static'})
         .pipe(gulpRev())
         .pipe(gulp.dest('static-build'))
@@ -60,9 +59,9 @@ gulp.task('preMinifiedScripts', () => {
             merge: true
         }))
         .pipe(gulp.dest(process.cwd()));
-});
+}
 
-gulp.task('stylesheets', () => {
+function stylesheets() {
     return gulp.src(['static/css/*'], {base: 'static'})
         .pipe(gulpCleanCss())
         .pipe(gulpRev())
@@ -71,4 +70,4 @@ gulp.task('stylesheets', () => {
             merge: true,
         }))
         .pipe(gulp.dest(process.cwd()));
-});
+}
