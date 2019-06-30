@@ -3,7 +3,7 @@
 const config = require('./config');
 const fs = require('fs');
 
-function getAppVersion() {
+export function getAppVersion() {
     return new Promise(function (resolve, reject) {
         fs.readFile('./package.json', 'utf8', function (err, data) {
             if (err) {
@@ -17,7 +17,7 @@ function getAppVersion() {
     });
 }
 
-function getRevManifest() {
+export function getRevManifest() {
     return new Promise(function (resolve) {
         fs.readFile('./rev-manifest.json', 'utf8', function (err, data) {
             if (config.env === 'development') {
@@ -32,8 +32,3 @@ function getRevManifest() {
         });
     });
 }
-
-module.exports = {
-    getAppVersion,
-    getRevManifest,
-};

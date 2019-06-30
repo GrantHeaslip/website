@@ -1,5 +1,7 @@
 'use strict';
 
+const path = require('path');
+
 const Boom = require('@hapi/boom');
 const hapi = require('@hapi/hapi');
 const ejs = require('ejs');
@@ -11,6 +13,8 @@ const config = require('./lib/config');
 const routes = require('./lib/routes');
 const utils = require('./lib/utils');
 const viewHelpers = require('./lib/view-helpers');
+
+const projectRootPath = path.resolve(__dirname, '..');
 
 if (config.env === 'development') {
     start();
@@ -43,7 +47,7 @@ async function start() {
         port: config.port,
         routes: {
             files: {
-                relativeTo: __dirname,
+                relativeTo: projectRootPath,
             }
         },
     });
@@ -53,13 +57,13 @@ async function start() {
     await server.register(vision);
 
     const hashedFileNames = await utils.getRevManifest();
-    const partiallyAppliedStaticHelper = viewHelpers.static.bind(null, hashedFileNames);
+    const partiallyAppliedStaticHelper = viewHelpers.staticFilePath.bind(null, hashedFileNames);
 
     // Initialize Vision view manager
     server.views({
         engines: { ejs: ejs },
-        relativeTo: __dirname,
-        path: '../templates',
+        relativeTo: projectRootPath,
+        path: 'templates',
         context: {
             'appEnv': config.env,
             'appVersion': await utils.getAppVersion(),

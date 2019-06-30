@@ -29,7 +29,7 @@ function getCanonicalUrl(request) {
     }
 }
 
-module.exports = [
+export = [
     {
         method: 'GET',
         path:'/',
