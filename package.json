@@ -17,7 +17,10 @@
         "heroku-local": "heroku local -f Procfile",
         "heroku-local-debug": "heroku local -f Procfile-debug",
         "heroku-local-dev": "heroku local -f Procfile-dev",
-        "build": "node node_modules/gulp/bin/gulp.js build",
+        "build": "npm run build-typescript && npm run build-static",
+        "build-static": "node node_modules/gulp/bin/gulp.js build",
+        "build-typescript": "./node_modules/typescript/bin/tsc",
+        "watch-typescript": "./node_modules/typescript/bin/tsc --watch",
         "start": "node server.js",
         "heroku-postbuild": "node node_modules/gulp/bin/gulp.js build"
     },
