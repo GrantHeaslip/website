@@ -1,15 +1,17 @@
 'use strict';
 
-const config = require('./config');
+import { ServerRoute, RouteOptionsCache } from '@hapi/hapi';
 
-const hashedStaticFileCacheOptions = {
+import { config } from './config';
+
+const hashedStaticFileCacheOptions: RouteOptionsCache = {
     privacy: 'public',
     expiresIn: 31536000000,
     statuses: [200],
     otherwise: 'no-cache',
 };
 
-const unhashedStaticFileCacheOptions = {
+const unhashedStaticFileCacheOptions: RouteOptionsCache = {
     privacy: 'public',
     expiresIn: 86400000,
     statuses: [200],
@@ -29,7 +31,7 @@ function getCanonicalUrl(request) {
     }
 }
 
-export = [
+export const routes: Array<ServerRoute> = [
     {
         method: 'GET',
         path:'/',

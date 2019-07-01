@@ -2,7 +2,7 @@
 
 const env =  process.env.APP_ENV || 'production';
 
-export = {
+export const config = {
     canonicalHost: process.env.CANONICAL_HOST,
     canonicalProtocol: process.env.CANONICAL_PROTOCOL,
     env: env,

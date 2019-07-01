@@ -1,7 +1,8 @@
 'use strict';
 
+import fs from 'fs';
+
 const config = require('./config');
-const fs = require('fs');
 
 export function getAppVersion() {
     return new Promise(function (resolve, reject) {

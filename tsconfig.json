@@ -2,6 +2,7 @@
     "compilerOptions": {
         "allowJs": true,
         "checkJs": true,
+        "esModuleInterop": true,
         "module": "CommonJS",
         "moduleResolution": "Node",
         "outDir": "src-build",

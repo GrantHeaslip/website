@@ -1,18 +1,18 @@
 'use strict';
 
-const path = require('path');
+import path from 'path';
 
-const Boom = require('@hapi/boom');
-const hapi = require('@hapi/hapi');
-const ejs = require('ejs');
-const inert = require('@hapi/inert');
-const throng = require('throng');
-const vision = require('@hapi/vision');
+import Boom from '@hapi/boom';
+import hapi from '@hapi/hapi';
+import ejs from 'ejs';
+import inert from '@hapi/inert';
+import throng from 'throng';
+import vision from '@hapi/vision';
 
-const config = require('./lib/config');
-const routes = require('./lib/routes');
-const utils = require('./lib/utils');
-const viewHelpers = require('./lib/view-helpers');
+import { config } from './lib/config';
+import { routes } from './lib/routes';
+import { getAppVersion, getRevManifest } from './lib/utils';
+import { staticFilePath } from './lib/view-helpers';
 
 const projectRootPath = path.resolve(__dirname, '..');
 
@@ -39,7 +39,7 @@ async function start() {
     }
 
     // Create server
-    const server = hapi.server({
+    const server = new hapi.Server({
         compression: {
             minBytes: 512,
         },
@@ -56,8 +56,8 @@ async function start() {
     await server.register(inert);
     await server.register(vision);
 
-    const hashedFileNames = await utils.getRevManifest();
-    const partiallyAppliedStaticHelper = viewHelpers.staticFilePath.bind(null, hashedFileNames);
+    const hashedFileNames = await getRevManifest();
+    const partiallyAppliedStaticFilePath = staticFilePath.bind(null, hashedFileNames);
 
     // Initialize Vision view manager
     server.views({
@@ -66,8 +66,8 @@ async function start() {
         path: 'templates',
         context: {
             'appEnv': config.env,
-            'appVersion': await utils.getAppVersion(),
-            'static': partiallyAppliedStaticHelper,
+            'appVersion': await getAppVersion(),
+            'static': partiallyAppliedStaticFilePath,
         },
     });
 
@@ -106,6 +106,7 @@ async function start() {
         const boomError = request.response;
 
         if (
+            // @ts-ignore (Boom types appear to be missing typeof)
             boomError.typeof === Boom.notFound &&
             boomError.output.statusCode === 404 &&
             typeof boomError.data.path !== 'undefined' &&
