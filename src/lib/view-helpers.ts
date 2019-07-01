@@ -6,4 +6,4 @@ export function staticFilePath(hashedFileNames, fileName) {
     let outputFileName = hashedFileNames[fileName] || fileName;
 
     return `/static/${outputFileName}`;
-};
+}

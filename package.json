@@ -47,37 +47,10 @@
         "throng": "^4.0.0",
         "typescript": "^3.5.2"
     },
-    "eslintConfig": {
-        "extends": "eslint:recommended",
-        "env": {
-            "browser": true,
-            "commonjs": true,
-            "es6": true,
-            "node": true
-        },
-        "parserOptions": {
-            "ecmaVersion": 2017,
-            "sourceType": "module"
-        },
-        "rules": {
-            "indent": [
-                "error",
-                4
-            ],
-            "linebreak-style": [
-                "error",
-                "unix"
-            ],
-            "no-console": "off",
-            "quotes": [
-                "error",
-                "single"
-            ],
-            "semi": [
-                "error",
-                "always"
-            ]
-        }
-    },
-    "devDependencies": {}
+    "devDependencies": {
+        "@typescript-eslint/eslint-plugin": "^1.11.0",
+        "@typescript-eslint/parser": "^1.11.0",
+        "eslint": "^6.0.1",
+        "eslint-plugin-import": "^2.18.0"
+    }
 }

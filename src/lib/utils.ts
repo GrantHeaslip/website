@@ -2,7 +2,7 @@
 
 import fs from 'fs';
 
-const config = require('./config');
+import { config } from './config';
 
 export function getAppVersion() {
     return new Promise(function (resolve, reject) {
