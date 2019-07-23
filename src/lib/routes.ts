@@ -3,6 +3,7 @@
 import { ServerRoute, RouteOptionsCache } from '@hapi/hapi';
 
 import { config } from './config';
+import { getCssModuleClassNameGetter } from './utils';
 
 const hashedStaticFileCacheOptions: RouteOptionsCache = {
     privacy: 'public',
@@ -35,14 +36,15 @@ export const routes: Array<ServerRoute> = [
     {
         method: 'GET',
         path:'/',
-        handler: (request, h) => {
+        handler: async (request, h) => {
             // TODO: Move canonicalUrl context variable to global context
             // (defined in server.views.context) once vision supports awaiting
             // async factory functions.
             return h.view(
                 'index',
                 {
-                    canonicalUrl: getCanonicalUrl(request)
+                    canonicalUrl: getCanonicalUrl(request),
+                    getClassNames: await getCssModuleClassNameGetter('global'),
                 },
             );
         },
@@ -94,7 +96,7 @@ export const routes: Array<ServerRoute> = [
     {
         method: '*',
         path: '/{unmatchedPath*}',
-        handler: (request, h) => {
+        handler: async (request, h) => {
             // If request path ends in “/index.html”, redirect to same path
             // without “index.html”
             const pathFollowedByIndexHtmlRegExp = request.path
@@ -111,7 +113,12 @@ export const routes: Array<ServerRoute> = [
                     .code(301);
             }
 
-            return h.view('error')
+            return h.view(
+                'error',
+                {
+                    getClassNames: await getCssModuleClassNameGetter('global'),
+                },
+            )
                 .code(404);
         }
     },

@@ -21,7 +21,7 @@
         <meta name="author" content="Grant Heaslip" />
         <meta name="twitter:card" content="summary" />
 
-        <link rel="stylesheet" type="text/css" media="screen" href="<%- static('css/global.css') %>" />
+        <link rel="stylesheet" type="text/css" media="screen" href="<%- static('css/modules.css') %>" />
 
         <!--[if lt IE 9]>
             <script src="<%- static('js/html5shiv.min.js') %>"></script>
@@ -40,5 +40,5 @@
         <meta name="msapplication-config" content="<%- static('browserconfig.xml') %>" />
     </head>
     <body>
-        <div class="centred">
+        <div class="<%- getClassNames('centred') %>">
             <main>

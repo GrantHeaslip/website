@@ -11,7 +11,7 @@ import vision from '@hapi/vision';
 
 import { config } from './lib/config';
 import { routes } from './lib/routes';
-import { getAppVersion, getRevManifest } from './lib/utils';
+import { getAppVersion, getJsonFile } from './lib/utils';
 import { staticFilePath } from './lib/view-helpers';
 
 const projectRootPath = path.resolve(__dirname, '..');
@@ -56,7 +56,11 @@ async function start() {
     await server.register(inert);
     await server.register(vision);
 
-    const hashedFileNames = await getRevManifest();
+    const hashedFileNames = (
+        config.env === 'development'
+            ? {}
+            : await getJsonFile('rev-manifest.json')
+    );
     const partiallyAppliedStaticFilePath = staticFilePath.bind(null, hashedFileNames);
 
     // Initialize Vision view manager
