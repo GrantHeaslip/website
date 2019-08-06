@@ -1,1 +1,1 @@
-web: node ./node_modules/nodemon/bin/nodemon.js --ext ejs,js,json src-build/server.js
+web: node ./node_modules/nodemon/bin/nodemon.js --ext ejs,js,json,svelte src-build/server.js

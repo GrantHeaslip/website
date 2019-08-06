@@ -1,5 +1,3 @@
-'use strict';
-
 import path from 'path';
 
 import Boom from '@hapi/boom';
@@ -11,8 +9,8 @@ import vision from '@hapi/vision';
 
 import { config } from './lib/config';
 import { routes } from './lib/routes';
+import { state } from './lib/state';
 import { getAppVersion, getJsonFile } from './lib/utils';
-import { staticFilePath } from './lib/view-helpers';
 
 const projectRootPath = path.resolve(__dirname, '..');
 
@@ -38,6 +36,9 @@ async function start() {
         console.info('Starting in production mode.');
     }
 
+    // eslint-disable-next-line require-atomic-updates
+    state.appVersion = await getAppVersion();
+
     // Create server
     const server = new hapi.Server({
         compression: {
@@ -56,24 +57,19 @@ async function start() {
     await server.register(inert);
     await server.register(vision);
 
-    const hashedFileNames = (
-        config.env === 'development'
-            ? {}
-            : await getJsonFile('rev-manifest.json')
-    );
-    const partiallyAppliedStaticFilePath = staticFilePath.bind(null, hashedFileNames);
-
     // Initialize Vision view manager
     server.views({
         engines: { ejs: ejs },
         relativeTo: projectRootPath,
         path: 'templates',
-        context: {
-            'appEnv': config.env,
-            'appVersion': await getAppVersion(),
-            'static': partiallyAppliedStaticFilePath,
-        },
     });
+
+    // Load state.hashedFileNames from rev-manifest.json
+    if (config.env === 'development') {
+        state.hashedFileNames = {};
+    } else {
+        state.hashedFileNames = await getJsonFile('rev-manifest.json');
+    }
 
     // Load routes
     server.route(routes);

@@ -1,8 +1,6 @@
-'use strict';
-
 import fs from 'fs';
 
-import { config } from './config';
+import { state } from './state';
 
 export function getAppVersion() {
     return new Promise(function (resolve, reject) {
@@ -33,46 +31,8 @@ export function getJsonFile(filePath: string) {
     });
 }
 
-let cssModuleClassnameMappings = null;
+export function staticPath(fileName) {
+    const hashedFileName = state.hashedFileNames[fileName] || fileName;
 
-export async function getCssModuleClassNameGetter(cssModuleName: string) {
-    if (
-        cssModuleClassnameMappings === null ||
-        config.env === 'development'
-    ) {
-        // eslint-disable-next-line require-atomic-updates
-        cssModuleClassnameMappings = (
-            await getJsonFile('css-module-classname-mappings.json')
-        );
-    }
-
-    if (typeof cssModuleClassnameMappings[cssModuleName] === 'object') {
-        return getClassNames.bind(
-            null,
-            cssModuleClassnameMappings[cssModuleName],
-            cssModuleName,
-        );
-    } else {
-        console.warn(`Requested CSS module "${cssModuleName}" doesn’t exist`);
-
-        return getClassNames.bind(
-            null,
-            {},
-            cssModuleName
-        );
-    }
-}
-
-function getClassNames(
-    cssModuleClassnameMappings: string,
-    cssModuleName: string,
-    className: string
-) {
-    if (typeof cssModuleClassnameMappings[className] === 'string') {
-        return cssModuleClassnameMappings[className];
-    }
-
-    console.warn(`CSS module "${cssModuleName}" has no classNames for class "${className}"`);
-
-    return '';
+    return `/static/${hashedFileName}`;
 }

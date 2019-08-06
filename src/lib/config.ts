@@ -1,5 +1,3 @@
-'use strict';
-
 const env =  process.env.APP_ENV || 'production';
 
 export const config = {

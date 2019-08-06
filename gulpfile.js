@@ -1,30 +1,32 @@
-const fs = require('fs').promises;
+const fs = require('fs');
 const path = require('path');
 
 const del = require('del');
+const fastGlob = require('fast-glob');
 const gulp = require('gulp');
-const gulpConcat = require('gulp-concat');
-const gulpCleanCss = require('gulp-clean-css');
-const gulpPostCss = require('gulp-postcss');
 const gulpRev = require('gulp-rev');
 const gulpRevReplace = require('gulp-rev-replace');
-const postCssModules = require('postcss-modules');
-const postCssModulesValues = require('postcss-modules-values');
-const stringHash = require('string-hash');
-
-var cssModuleMappings = {};
-var isProduction = true;
+const svelteCompiler = require('svelte/compiler');
 
 gulp.task(
     'build',
     gulp.series(
         clean,
-        stylesheets,
-        writeCssModuleClassnameMappingsFile,
+        svelteModuleStyles,
         preMinifiedScripts,
         favicons,
         appManifests,
     )
+);
+
+gulp.task(
+    'watchSvelte',
+    function () {
+        return gulp.watch(
+            'components/*.svelte',
+            svelteModuleStyles
+        );
+    }
 );
 
 function appManifests() {
@@ -39,7 +41,10 @@ function appManifests() {
     )
         .pipe(gulpRevReplace({
             manifest: manifest,
-            replaceInExtensions: ['.xml', '.webmanifest'],
+            replaceInExtensions: [
+                '.webmanifest',
+                '.xml',
+            ],
         }))
         .pipe(gulpRev())
         .pipe(gulp.dest('static-build'))
@@ -50,11 +55,14 @@ function appManifests() {
 }
 
 function clean() {
-    return del(['rev-manifest.json', 'static-build/*']);
+    return del([
+        'rev-manifest.json',
+        'static-build/*'
+    ]);
 }
 
 function favicons() {
-    return gulp.src(['static/favicons/**/*'], {base: 'static'})
+    return gulp.src('static/favicons/**/*', {base: 'static'})
         .pipe(gulpRev())
         .pipe(gulp.dest('static-build'))
         .pipe(gulpRev.manifest({
@@ -64,7 +72,7 @@ function favicons() {
 }
 
 function preMinifiedScripts() {
-    return gulp.src(['static/js/**/*'], {base: 'static'})
+    return gulp.src('static/js/**/*', {base: 'static'})
         .pipe(gulpRev())
         .pipe(gulp.dest('static-build'))
         .pipe(gulpRev.manifest({
@@ -73,42 +81,39 @@ function preMinifiedScripts() {
         .pipe(gulp.dest(process.cwd()));
 }
 
-function stylesheets() {
-    return gulp.src(['css-modules/**/*'], {base: 'static'})
-        .pipe(
-            gulpPostCss([
-                postCssModules({
-                    generateScopedName: function(name, filename, css) {
-                        var moduleName = path.basename(filename, '.module.css');
+function svelteModuleStyles(done) {
+    const svelteComponentPaths = fastGlob.sync('components/*.svelte');
 
-                        var cssContentHash = stringHash(css).toString(36).substr(0, 5);
+    let componentStyles = '';
 
-                        return moduleName + '_' + name + '_' + cssContentHash;
-                    },
-                    getJSON: function (cssFileName, json) {
-                        var moduleName = path.basename(cssFileName, '.module.css');
+    for (const svelteComponentPath of svelteComponentPaths) {
+        const svelteComponentContent = fs.readFileSync(svelteComponentPath, 'utf8');
 
-                        cssModuleMappings[moduleName] = json;
-                    }
-                    ,
-                }),
-                postCssModulesValues(),
-            ])
-        )
-        .pipe(gulpConcat('css/modules.css'))
-        .pipe(gulp.dest('static'))
-        .pipe(gulpCleanCss())
-        .pipe(gulpRev())
-        .pipe(gulp.dest('static-build'))
-        .pipe(gulpRev.manifest({
-            merge: true,
-        }))
-        .pipe(gulp.dest(process.cwd()));
-}
+        const { css } = svelteCompiler.compile(svelteComponentContent);
 
-async function writeCssModuleClassnameMappingsFile() {
-    return fs.writeFile(
-        `${__dirname}/css-module-classname-mappings.json`,
-        JSON.stringify(cssModuleMappings)
+        if (typeof css.code === 'string') {
+            componentStyles += css.code;
+        }
+    }
+
+    fs.writeFileSync(
+        `${__dirname}/static/css/components.css`,
+        componentStyles
     );
+
+    return gulp.src('static/css/components.css', {base: 'static'})
+        .pipe(
+            gulpRev()
+        )
+        .pipe(
+            gulp.dest('static-build')
+        )
+        .pipe(
+            gulpRev.manifest({
+                merge: true
+            })
+        )
+        .pipe(
+            gulp.dest(process.cwd())
+        );
 }

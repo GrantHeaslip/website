@@ -1,9 +1,11 @@
-'use strict';
-
 import { ServerRoute, RouteOptionsCache } from '@hapi/hapi';
 
 import { config } from './config';
-import { getCssModuleClassNameGetter } from './utils';
+
+require('svelte/register');
+
+const Error = require('../../components/Error.svelte').default;
+const Home = require('../../components/Home.svelte').default;
 
 const hashedStaticFileCacheOptions: RouteOptionsCache = {
     privacy: 'public',
@@ -19,8 +21,6 @@ const unhashedStaticFileCacheOptions: RouteOptionsCache = {
     otherwise: 'no-cache',
 };
 
-const pathEndingInIndexHtmlRegExp = /(.*\/)index\.html/;
-
 function getCanonicalUrl(request) {
     if (
         typeof config.canonicalHost === 'undefined' ||
@@ -32,21 +32,30 @@ function getCanonicalUrl(request) {
     }
 }
 
+async function getSvelteResponse(request, h, component, props = {}) {
+    const { css, head, html } = component.render({
+        ...{
+            canonicalUrl: getCanonicalUrl(request),
+        },
+        ...props,
+    });
+
+    return h.view(
+        'svelte',
+        {
+            css: css,
+            head: head,
+            html: html,
+        },
+    );
+}
+
 export const routes: Array<ServerRoute> = [
     {
         method: 'GET',
-        path:'/',
+        path: '/',
         handler: async (request, h) => {
-            // TODO: Move canonicalUrl context variable to global context
-            // (defined in server.views.context) once vision supports awaiting
-            // async factory functions.
-            return h.view(
-                'index',
-                {
-                    canonicalUrl: getCanonicalUrl(request),
-                    getClassNames: await getCssModuleClassNameGetter('global'),
-                },
-            );
+            return await getSvelteResponse(request, h, Home, {home: 'test'});
         },
     },
     {
@@ -100,7 +109,7 @@ export const routes: Array<ServerRoute> = [
             // If request path ends in “/index.html”, redirect to same path
             // without “index.html”
             const pathFollowedByIndexHtmlRegExp = request.path
-                .match(pathEndingInIndexHtmlRegExp);
+                .match(/(.*\/)index\.html/);
 
             if (
                 Array.isArray(pathFollowedByIndexHtmlRegExp) &&
@@ -113,13 +122,9 @@ export const routes: Array<ServerRoute> = [
                     .code(301);
             }
 
-            return h.view(
-                'error',
-                {
-                    getClassNames: await getCssModuleClassNameGetter('global'),
-                },
-            )
-                .code(404);
+            const svelteResponse = await getSvelteResponse(request, h, Error);
+
+            return svelteResponse.code(404);
         }
     },
 ];
