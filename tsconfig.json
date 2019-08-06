@@ -8,7 +8,7 @@
         "outDir": "src-build",
         "resolveJsonModule": true,
         "sourceMap": true,
-        "strict": false,
+        "strict": true,
         "target": "ES2017"
     },
     "include": [

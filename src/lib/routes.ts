@@ -1,4 +1,10 @@
-import { ServerRoute, RouteOptionsCache } from '@hapi/hapi';
+import {
+    ResponseObject,
+    ResponseToolkit,
+    Request,
+    RouteOptionsCache,
+    ServerRoute,
+} from '@hapi/hapi';
 
 import { config } from './config';
 
@@ -21,7 +27,7 @@ const unhashedStaticFileCacheOptions: RouteOptionsCache = {
     otherwise: 'no-cache',
 };
 
-function getCanonicalUrl(request) {
+function getCanonicalUrl(request: Request) {
     if (
         typeof config.canonicalHost === 'undefined' ||
         typeof config.canonicalProtocol === 'undefined'
@@ -32,7 +38,13 @@ function getCanonicalUrl(request) {
     }
 }
 
-async function getSvelteResponse(request, h, component, props = {}) {
+async function getSvelteResponse(
+    request: Request,
+    h: ResponseToolkit,
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    component: any,
+    props = {}
+): Promise<ResponseObject> {
     const { css, head, html } = component.render({
         ...{
             canonicalUrl: getCanonicalUrl(request),

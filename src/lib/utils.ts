@@ -2,7 +2,7 @@ import fs from 'fs';
 
 import { state } from './state';
 
-export function getAppVersion() {
+export function getAppVersion(): Promise<string> {
     return new Promise(function (resolve, reject) {
         fs.readFile('./package.json', 'utf8', function (err, data) {
             if (err) {
@@ -16,7 +16,7 @@ export function getAppVersion() {
     });
 }
 
-export function getJsonFile(filePath: string) {
+export function getJsonFile(filePath: string): object {
     return new Promise(function (resolve) {
         fs.readFile(`./${filePath}`, 'utf8', function (err, data) {
             if (err) {
@@ -31,8 +31,8 @@ export function getJsonFile(filePath: string) {
     });
 }
 
-export function staticPath(fileName) {
-    const hashedFileName = state.hashedFileNames[fileName] || fileName;
+export function staticPath(fileName: string): string {
+    const hashedFileName = state.hashedFilePaths[fileName] || fileName;
 
     return `/static/${hashedFileName}`;
 }

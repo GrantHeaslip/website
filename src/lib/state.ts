@@ -1,4 +1,13 @@
-export let state = {
+export interface HashedFilePaths {
+    [fileName: string]: string;
+}
+
+interface State {
+    appVersion: string | null;
+    hashedFilePaths: HashedFilePaths;
+}
+
+export let state: State = {
     appVersion: null,
-    hashedFileNames: null,
+    hashedFilePaths: {},
 };

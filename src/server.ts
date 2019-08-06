@@ -9,7 +9,7 @@ import vision from '@hapi/vision';
 
 import { config } from './lib/config';
 import { routes } from './lib/routes';
-import { state } from './lib/state';
+import { state, HashedFilePaths } from './lib/state';
 import { getAppVersion, getJsonFile } from './lib/utils';
 
 const projectRootPath = path.resolve(__dirname, '..');
@@ -64,11 +64,9 @@ async function start() {
         path: 'templates',
     });
 
-    // Load state.hashedFileNames from rev-manifest.json
-    if (config.env === 'development') {
-        state.hashedFileNames = {};
-    } else {
-        state.hashedFileNames = await getJsonFile('rev-manifest.json');
+    // Load state.hashedFilePaths from rev-manifest.json
+    if (config.env !== 'development') {
+        state.hashedFilePaths = await getJsonFile('rev-manifest.json') as HashedFilePaths;
     }
 
     // Load routes
