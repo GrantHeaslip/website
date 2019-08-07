@@ -8,7 +8,7 @@ import throng from 'throng';
 import vision from '@hapi/vision';
 
 import { config } from './lib/config';
-import { routes } from './lib/routes';
+import { routes, notFoundHandler } from './lib/routes';
 import { state, HashedFilePaths } from './lib/state';
 import { getAppVersion, getJsonFile } from './lib/utils';
 
@@ -96,22 +96,16 @@ async function start() {
     // Intercept Inert’s directory handler JSON errors and render error view
     // instead. This feels like a bad solution, but it appears to be the only
     // way: https://github.com/hapijs/inert/issues/41
-    server.ext('onPreResponse', (request, h) => {
+    server.ext('onPreResponse', async (request, h) => {
         if ( !(request.response instanceof Boom) ) {
             return h.continue;
         }
 
         const boomError = request.response;
 
-        if (
-            // @ts-ignore (Boom types appear to be missing typeof)
-            boomError.typeof === Boom.notFound &&
-            boomError.output.statusCode === 404 &&
-            typeof boomError.data.path !== 'undefined' &&
-            boomError.data.path.indexOf('static-build') !== -1
-        ) {
-            return h.view('error')
-                .code(404);
+        // @ts-ignore (Boom types appear to be missing typeof)
+        if ([Boom.notFound, Boom.forbidden].includes(boomError.typeof)) {
+            return await notFoundHandler(request, h);
         }
 
         return h.continue;

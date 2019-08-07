@@ -62,13 +62,43 @@ async function getSvelteResponse(
     );
 }
 
+export async function homeHandler(
+    request: Request,
+    h: ResponseToolkit,
+) {
+    return await getSvelteResponse(request, h, Home);
+}
+
+export async function notFoundHandler(
+    request: Request,
+    h: ResponseToolkit,
+) {
+    // If request path ends in “/index.html”, redirect to same path
+    // without “index.html”
+    const pathFollowedByIndexHtmlRegExp = request.path
+        .match(/(.*\/)index\.html/);
+
+    if (
+        Array.isArray(pathFollowedByIndexHtmlRegExp) &&
+        pathFollowedByIndexHtmlRegExp.length === 2
+    ) {
+        const pathWithoutIndexHtml = pathFollowedByIndexHtmlRegExp[1];
+
+        return h
+            .redirect(pathWithoutIndexHtml)
+            .code(301);
+    }
+
+    const svelteResponse = await getSvelteResponse(request, h, Error);
+
+    return svelteResponse.code(404);
+}
+
 export const routes: Array<ServerRoute> = [
     {
         method: 'GET',
         path: '/',
-        handler: async (request, h) => {
-            return await getSvelteResponse(request, h, Home, {home: 'test'});
-        },
+        handler: homeHandler,
     },
     {
         method: 'GET',
@@ -117,26 +147,6 @@ export const routes: Array<ServerRoute> = [
     {
         method: '*',
         path: '/{unmatchedPath*}',
-        handler: async (request, h) => {
-            // If request path ends in “/index.html”, redirect to same path
-            // without “index.html”
-            const pathFollowedByIndexHtmlRegExp = request.path
-                .match(/(.*\/)index\.html/);
-
-            if (
-                Array.isArray(pathFollowedByIndexHtmlRegExp) &&
-                pathFollowedByIndexHtmlRegExp.length === 2
-            ) {
-                const pathWithoutIndexHtml = pathFollowedByIndexHtmlRegExp[1];
-
-                return h
-                    .redirect(pathWithoutIndexHtml)
-                    .code(301);
-            }
-
-            const svelteResponse = await getSvelteResponse(request, h, Error);
-
-            return svelteResponse.code(404);
-        }
+        handler: notFoundHandler,
     },
 ];
