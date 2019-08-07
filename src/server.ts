@@ -78,6 +78,7 @@ async function start() {
         const requestHost = request.info.host;
 
         if (
+            config.env !== 'development' &&
             typeof config.canonicalHost !== 'undefined' &&
             typeof config.canonicalProtocol !== 'undefined' &&
             (

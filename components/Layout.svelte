@@ -13,13 +13,32 @@
 </script>
 
 <style>
+    :global(:root) {
+        color-scheme: light dark;
+        --colourDocumentBackground: rgb(241, 241, 241);
+        --colourPageBackground: rgb(255, 255, 255);
+        --colourPageBorder: rgb(225, 225, 225);
+        --colourPageLink: rgb(0, 136, 204);
+        --colourText: rgb(33, 33, 33);
+    }
+    @media (prefers-color-scheme: dark) {
+        :global(:root) {
+            --colourDocumentBackground: rgb(0, 0, 0);
+            --colourPageBackground: rgb(0, 0, 0);
+            --colourPageBorder: rgb(225, 225, 225);
+            --colourPageLink: rgb(102, 187, 255);
+            --colourText: rgb(222, 222, 222);
+        }
+    }
     :global(html) {
         overflow-x: hidden;
         overflow-y: scroll;
     }
     :global(html, body) {
         color: #212121;
+        color: var(--colourText);
         background: #f1f1f1;
+        background: var(--colourDocumentBackground);
         font-size: 16px;
         line-height: 1.5em;
         font-weight: 400;
