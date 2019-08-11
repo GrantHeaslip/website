@@ -1,6 +1,6 @@
 <script context="module">
-    const Layout = require('./Layout.svelte').default;
-    const Page = require('./Page.svelte').default;
+    import Layout from './Layout.svelte';
+    import Page from './Page.svelte';
 </script>
 
 <script>
