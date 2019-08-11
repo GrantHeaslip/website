@@ -8,7 +8,6 @@
 
 <style>
     .Page {
-        padding: 0;
         background-color: #fff;
         background-color: var(--colourPageBackground);
         overflow: hidden;
