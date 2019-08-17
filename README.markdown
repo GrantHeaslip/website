@@ -10,7 +10,7 @@ Please note that this was a Node.js and ECMAScript 2015+ learning project. It’
 
 - Run `npm install`.
 - Create an `.env` file using `.env-sample` as a template.
-- If using `APP_ENV="production"`, run `gulp build` to populate `rev-manifest.json` and the `static-build` directory.
+- If using `APP_ENV="production"`, run `gulp build` to populate `temp/rev-manifest.json` and the `static-build` directory.
 - To run the server:
     - If using the [Heroku CLI][heroku-cli]: Run [`heroku local`][heroku-local], which sources `.env` and runs the `web` command in `Procfile`.
     - If using the [Bash shell][bash], run `source source_env.sh` to load the variables from `.env` into the environment, then run `node server.js` or `npm start`.

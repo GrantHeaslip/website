@@ -1,17 +1,17 @@
 import {
-    ResponseObject,
     ResponseToolkit,
     Request,
     RouteOptionsCache,
     ServerRoute,
 } from '@hapi/hapi';
 
+import React, { ReactElement } from 'react';
+import { renderToStaticMarkup } from 'react-dom/server';
+
 import { config } from './config';
 
-require('svelte/register');
-
-const Error = require('../../components/Error.svelte').default;
-const Home = require('../../components/Home.svelte').default;
+import { Error } from '../components/Error';
+import { Home } from '../components/Home';
 
 const hashedStaticFileCacheOptions: RouteOptionsCache = {
     privacy: 'public',
@@ -38,38 +38,18 @@ function getCanonicalUrl(request: Request) {
     }
 }
 
-async function getSvelteResponse(
-    request: Request,
-    h: ResponseToolkit,
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    component: any,
-    props = {}
-): Promise<ResponseObject> {
-    const { css, head, html } = component.render({
-        ...{
-            canonicalUrl: getCanonicalUrl(request),
-        },
-        ...props,
-    });
-
-    return h.view(
-        'svelte',
-        {
-            css: css,
-            head: head,
-            html: html,
-        },
-    );
+function renderReactElementAsHtmlResponse(reactElement: ReactElement) {
+    return `<!DOCTYPE html>${renderToStaticMarkup(reactElement)}`;
 }
 
-export async function homeHandler(
-    request: Request,
-    h: ResponseToolkit,
+export function homeHandler(
+    _request: Request,
+    _h: ResponseToolkit,
 ) {
-    return await getSvelteResponse(request, h, Home);
+    return renderReactElementAsHtmlResponse(<Home />);
 }
 
-export async function notFoundHandler(
+export function notFoundHandler(
     request: Request,
     h: ResponseToolkit,
 ) {
@@ -89,9 +69,11 @@ export async function notFoundHandler(
             .code(301);
     }
 
-    const svelteResponse = await getSvelteResponse(request, h, Error);
+    const responseHtml = renderReactElementAsHtmlResponse(<Error />);
 
-    return svelteResponse.code(404);
+    return h
+        .response(responseHtml)
+        .code(404);
 }
 
 export const routes: Array<ServerRoute> = [

@@ -1,11 +1,11 @@
+import 'core-js/es7';
+
 import path from 'path';
 
 import Boom from '@hapi/boom';
 import hapi from '@hapi/hapi';
-import ejs from 'ejs';
 import inert from '@hapi/inert';
 import throng from 'throng';
-import vision from '@hapi/vision';
 
 import { config } from './lib/config';
 import { routes, notFoundHandler } from './lib/routes';
@@ -55,18 +55,10 @@ async function start() {
 
     // Register plugins
     await server.register(inert);
-    await server.register(vision);
 
-    // Initialize Vision view manager
-    server.views({
-        engines: { ejs: ejs },
-        relativeTo: projectRootPath,
-        path: 'templates',
-    });
-
-    // Load state.hashedFilePaths from rev-manifest.json
+    // Load state.hashedFilePaths from temp/rev-manifest.json
     if (config.env !== 'development') {
-        state.hashedFilePaths = await getJsonFile('rev-manifest.json') as HashedFilePaths;
+        state.hashedFilePaths = await getJsonFile('temp/rev-manifest.json') as HashedFilePaths;
     }
 
     // Load routes
@@ -106,7 +98,7 @@ async function start() {
 
         // @ts-ignore (Boom types appear to be missing typeof)
         if ([Boom.notFound, Boom.forbidden].includes(boomError.typeof)) {
-            return await notFoundHandler(request, h);
+            return notFoundHandler(request, h);
         }
 
         return h.continue;

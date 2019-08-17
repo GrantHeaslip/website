@@ -1,10 +1,10 @@
 *.code-workspace
 .env
 .vscode/
-css-module-classname-mappings.json
 node_modules/
 rev-manifest.json
 scratch.*
 src-build/
 static/css/
 static-build/
+temp/
