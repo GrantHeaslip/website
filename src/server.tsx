@@ -12,8 +12,6 @@ import { routes, notFoundHandler } from './lib/routes';
 import { state, HashedFilePaths } from './lib/state';
 import { getAppVersion, getJsonFile } from './lib/utils';
 
-const projectRootPath = path.resolve(__dirname, '..');
-
 if (config.env === 'development') {
     start();
 } else {
@@ -48,7 +46,7 @@ async function start() {
         port: config.port,
         routes: {
             files: {
-                relativeTo: projectRootPath,
+                relativeTo: __dirname,
             }
         },
     });
@@ -61,6 +59,7 @@ async function start() {
         state.hashedFilePaths = await getJsonFile('temp/rev-manifest.json') as HashedFilePaths;
     }
 
+    state.webpackAssets = await getJsonFile('temp/webpack-assets.json');
     // Load routes
     server.route(routes);
 

@@ -1,6 +1,7 @@
 const env =  process.env.APP_ENV || 'production';
 
 export const config = {
+    assetsDir: 'assets',
     canonicalHost: process.env.CANONICAL_HOST,
     canonicalProtocol: process.env.CANONICAL_PROTOCOL,
     env: env,

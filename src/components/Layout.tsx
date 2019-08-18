@@ -1,7 +1,11 @@
 import React from "react";
 
 import { css } from 'linaria';
+
 import { staticPath } from "../lib/utils";
+import { state } from '../lib/state';
+
+import faviconIco from '../assets/favicons/favicon.ico';
 
 export const globals = css`
     :global() {
@@ -77,9 +81,11 @@ export function Layout(props: any) {
 
             <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-            <link rel="stylesheet" type="text/css" media="screen" href={staticPath('css/website.css')} />
+            <link rel="stylesheet" type="text/css" media="screen" href={state.webpackAssets.main.css} />
 
             <title>Grant Heaslip</title>
+
+            <link rel="shortcut icon" href={faviconIco}></link>
         </head>
         <body>
             <div className={centred}>

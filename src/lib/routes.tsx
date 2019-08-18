@@ -112,13 +112,13 @@ export const routes: Array<ServerRoute> = [
     },
     {
         method: 'GET',
-        path: '/static/{fileName*}',
+        path: '/assets/{fileName*}',
         handler: {
             directory: {
                 etagMethod: false,
                 index: false,
                 lookupCompressed: false,
-                path: config.staticDir,
+                path: config.assetsDir,
                 redirectToSlash: false,
             },
         },

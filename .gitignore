@@ -1,6 +1,8 @@
 *.code-workspace
 .env
+.linaria-cache/
 .vscode/
+dist/
 node_modules/
 rev-manifest.json
 scratch.*
