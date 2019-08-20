@@ -5,7 +5,14 @@ import { css } from 'linaria';
 import { staticPath } from "../lib/utils";
 import { state } from '../lib/state';
 
+import appleTouchIcon180x180Png from '../assets/favicons/apple-touch-icon-180x180.png';
+import androidChrome192x192Png from '../assets/favicons/android-chrome-192x192.png';
+import browserconfigXml from '../assets/browserconfig.xml';
+import favicon16x16Png from '../assets/favicons/favicon-16x16.png';
+import favicon194x194Png from '../assets/favicons/favicon-194x194.png';
+import favicon32x32Png from '../assets/favicons/favicon-32x32.png';
 import faviconIco from '../assets/favicons/favicon.ico';
+import manifestWebmanifest from '../assets/manifest.webmanifest';
 
 export const globals = css`
     :global() {
@@ -81,11 +88,25 @@ export function Layout(props: any) {
 
             <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-            <link rel="stylesheet" type="text/css" media="screen" href={state.webpackAssets.main.css} />
+            <link rel="stylesheet" type="text/css" media="screen" href={state.websiteCssPath} />
 
             <title>Grant Heaslip</title>
 
-            <link rel="shortcut icon" href={faviconIco}></link>
+            {/* ================
+            ===== Favicons =====
+            ================ */}
+            <link rel="apple-touch-icon" sizes="180x180" href={appleTouchIcon180x180Png} />
+            <link rel="icon" type="image/png" sizes="32x32" href={favicon32x32Png} />
+            <link rel="icon" type="image/png" href={favicon194x194Png} sizes="194x194" />
+            <link rel="icon" type="image/png" href={androidChrome192x192Png} sizes="192x192" />
+            <link rel="icon" type="image/png" href={favicon16x16Png} sizes="16x16" />
+            <link rel="shortcut icon" href={faviconIco} />
+
+            {/* =================
+            ===== Manifests =====
+            ================= */}
+            <link rel="manifest" href={manifestWebmanifest} />
+            <meta name="msapplication-config" content={browserconfigXml} />
         </head>
         <body>
             <div className={centred}>

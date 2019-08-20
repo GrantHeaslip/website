@@ -59,7 +59,12 @@ async function start() {
         state.hashedFilePaths = await getJsonFile('temp/rev-manifest.json') as HashedFilePaths;
     }
 
-    state.webpackAssets = await getJsonFile('temp/webpack-assets.json');
+    const webpackAssets = await getJsonFile('temp/webpack-assets.json') as any;
+
+    state.websiteCssPath = (
+        webpackAssets.main.css.replace(/^\/static/, '')
+    );
+
     // Load routes
     server.route(routes);
 

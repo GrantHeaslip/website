@@ -5,11 +5,11 @@ export interface HashedFilePaths {
 interface State {
     appVersion: string | null;
     hashedFilePaths: HashedFilePaths;
-    webpackAssets: any;
+    websiteCssPath: string;
 }
 
 export let state: State = {
     appVersion: null,
     hashedFilePaths: {},
-    webpackAssets: {},
+    websiteCssPath: '',
 };

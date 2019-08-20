@@ -2,6 +2,7 @@ const path = require('path');
 
 const AssetsPlugin = require('assets-webpack-plugin')
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const webpack = require('webpack');
 
@@ -25,11 +26,18 @@ module.exports = {
             filename: 'temp/webpack-assets.json',
         }),
         new CleanWebpackPlugin(),
+        new CopyWebpackPlugin([
+            {
+                context: 'src',
+                from: 'static/**/*',
+                to: '.'
+            },
+        ]),
         new webpack.DefinePlugin({
             'process.env': { NODE_ENV: JSON.stringify(process.env.NODE_ENV) },
         }),
         new MiniCssExtractPlugin({
-            filename: 'assets/css/website-[contenthash].css',
+            filename: 'static/assets/css/website-[contenthash].css',
         }),
     ],
     optimization: {
@@ -60,17 +68,36 @@ module.exports = {
                 ],
             },
             {
-                test: /\.(ico|png|txt|webmanifest|xml)$/,
+                test: /\.(ico|png|txt)$/,
                 use: [
                     {
                         loader: 'file-loader',
                         options: {
                             context: 'src',
                             name: '[path][name]-[hash].[ext]',
+                            outputPath: 'static',
+                            publicPath: '/',
                         },
                     },
                 ]
-            }
+            },
+            {
+                test: /(manifest\.webmanifest|browserconfig\.xml)$/,
+                use: [
+                    {
+                        loader: 'file-loader',
+                        options: {
+                            context: 'src',
+                            name: '[path][name]-[hash].[ext]',
+                            outputPath: 'static',
+                            publicPath: '/',
+                        }
+                    },
+                    {
+                        loader: 'app-manifest-loader',
+                    },
+                ],
+            },
         ],
     },
 };

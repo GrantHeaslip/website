@@ -84,51 +84,18 @@ export const routes: Array<ServerRoute> = [
     },
     {
         method: 'GET',
-        path:'/favicon.ico',
-        handler: {
-            file: {
-                etagMethod: 'hash',
-                lookupCompressed: false,
-                path: 'static/favicons/favicon.ico',
-            },
-        },
-        options: {
-            cache: unhashedStaticFileCacheOptions,
-        },
-    },
-    {
-        method: 'GET',
-        path:'/robots.txt',
-        handler: {
-            file: {
-                etagMethod: 'hash',
-                lookupCompressed: false,
-                path: 'static/robots.txt',
-            },
-        },
-        options: {
-            cache: unhashedStaticFileCacheOptions,
-        },
-    },
-    {
-        method: 'GET',
-        path: '/assets/{fileName*}',
+        path: '/{fileName*}',
         handler: {
             directory: {
                 etagMethod: false,
                 index: false,
                 lookupCompressed: false,
-                path: config.assetsDir,
+                path: 'static',
                 redirectToSlash: false,
             },
         },
         options: {
             cache: hashedStaticFileCacheOptions,
         },
-    },
-    {
-        method: '*',
-        path: '/{unmatchedPath*}',
-        handler: notFoundHandler,
     },
 ];
