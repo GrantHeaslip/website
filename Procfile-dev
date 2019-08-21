@@ -1,1 +1,1 @@
-web: node ./node_modules/nodemon/bin/nodemon.js --watch src-build --delay 1 src-build/server.js
+web: node ./node_modules/nodemon/bin/nodemon.js dist/website-server.bundle.js

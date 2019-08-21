@@ -20,7 +20,9 @@
         "build": "gulp build",
         "watch": "gulp watch",
         "start": "node server.js",
-        "bundle": "webpack"
+        "bundle-development": "webpack --mode=development",
+        "bundle-development-watch": "webpack --mode=development --watch",
+        "bundle-production": "webpack --mode=production"
     },
     "license": "BSD-3-Clause",
     "dependencies": {

@@ -1,1 +1,1 @@
-web: node src-build/server.js
+web: node dist/website-server.bundle.js
