@@ -78,15 +78,16 @@ const centred = css`
     overflow: hidden;
 `;
 
-interface LayoutProps {
+export function Layout({
+    children,
+    title = null,
+}: {
     children: ReactNode
     title: string | null;
-}
-
-export function Layout(props: LayoutProps) {
-    const title = (
-        typeof props.title === 'string'
-            ? `${props.title} — Grant Heaslip`
+}) {
+    const formattedTitle = (
+        typeof title === 'string'
+            ? `${title} — Grant Heaslip`
             : 'Grant Heaslip'
     );
 
@@ -100,7 +101,7 @@ export function Layout(props: LayoutProps) {
 
             <link rel="stylesheet" type="text/css" media="screen" href={state.websiteCssPath} />
 
-            <title>{title}</title>
+            <title>{formattedTitle}</title>
 
             {/* ================
             ===== Favicons =====
@@ -120,7 +121,7 @@ export function Layout(props: LayoutProps) {
         </head>
         <body>
             <div className={centred}>
-                {props.children}
+                {children}
             </div>
         </body>
     </html>;

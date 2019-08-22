@@ -38,15 +38,16 @@ const page = css`
     }
 `;
 
-interface PageProps {
+export function Page({
+    children,
+    title = null,
+}: {
     children: ReactNode
-    title: string | null;
-}
-
-export function Page(props: PageProps) {
-    return <Layout title={props.title}>
+    title?: string | null;
+}) {
+    return <Layout title={title}>
         <main className={page}>
-            {props.children}
+            {children}
         </main>
     </Layout>;
 };
