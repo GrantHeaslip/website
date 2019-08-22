@@ -1,8 +1,7 @@
-import React from "react";
+import React, { ReactNode } from "react";
 
 import { css } from 'linaria';
 
-import { staticPath } from "../lib/utils";
 import { state } from '../lib/state';
 
 import appleTouchIcon180x180Png from '../assets/favicons/apple-touch-icon-180x180.png';
@@ -79,7 +78,18 @@ const centred = css`
     overflow: hidden;
 `;
 
-export function Layout(props: any) {
+interface LayoutProps {
+    children: ReactNode
+    title: string | null;
+}
+
+export function Layout(props: LayoutProps) {
+    const title = (
+        typeof props.title === 'string'
+            ? `${props.title} — Grant Heaslip`
+            : 'Grant Heaslip'
+    );
+
     return <html lang="en-CA" dir="ltr">
         <head>
             <meta charSet='utf-8' />
@@ -90,7 +100,7 @@ export function Layout(props: any) {
 
             <link rel="stylesheet" type="text/css" media="screen" href={state.websiteCssPath} />
 
-            <title>Grant Heaslip</title>
+            <title>{title}</title>
 
             {/* ================
             ===== Favicons =====

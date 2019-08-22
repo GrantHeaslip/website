@@ -3,7 +3,7 @@ import React from "react";
 import { Page } from './Page';
 
 export function Error() {
-    return <Page>
+    return <Page title="404">
         <h1>404: Not found</h1>
 
         <p>This page or file doesn’t exist.</p>

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { ReactNode } from "react";
 
 import { css } from 'linaria';
 
@@ -7,7 +7,6 @@ import { Layout } from './Layout';
 const page = css`
     background-color: #fff;
     background-color: var(--colourPageBackground);
-    /* background-color: blue; */
     overflow: hidden;
     padding: 1.5em;
     border: 1px solid #e1e1e1;
@@ -39,8 +38,13 @@ const page = css`
     }
 `;
 
-export function Page(props: any) {
-    return <Layout>
+interface PageProps {
+    children: ReactNode
+    title: string | null;
+}
+
+export function Page(props: PageProps) {
+    return <Layout title={props.title}>
         <main className={page}>
             {props.children}
         </main>
