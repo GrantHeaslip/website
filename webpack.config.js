@@ -27,7 +27,7 @@ module.exports = function(env, argv) {
         },
         target: 'node',
         resolve: {
-            extensions: ['.ts', '.tsx', '.js', '.jsx1']
+            extensions: ['.ts', '.tsx', '.js', '.jsx']
         },
         plugins: [
             new webpack.EnvironmentPlugin({

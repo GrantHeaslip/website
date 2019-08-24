@@ -1,14 +1,25 @@
 {
     "presets": [
         [
-            "@babel/env", {
+            "@babel/env",
+            {
                 "targets": {
                     "node": "12.5.0"
                 }
             }
         ],
-        "@babel/typescript",
-        "@babel/react",
+        [
+            "@babel/typescript",
+            {
+                "jsxPragma": "h",
+            }
+        ],
+        [
+            "@babel/react",
+            {
+                "pragma": "h",
+            }
+        ],
         "linaria/babel"
     ],
     "plugins": [

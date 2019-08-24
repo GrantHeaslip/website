@@ -4,12 +4,13 @@ import {
     RouteOptionsCache,
     ServerRoute,
 } from '@hapi/hapi';
-
-import React, { ReactElement } from 'react';
-import { renderToStaticMarkup } from 'react-dom/server';
+import {
+    h,
+    VNode,
+} from 'preact';
+import { render } from 'preact-render-to-string';
 
 import { config } from './config';
-
 import { Error } from '../components/Error';
 import { Home } from '../components/Home';
 
@@ -38,20 +39,20 @@ function getCanonicalUrl(request: Request) {
     }
 }
 
-function renderReactElementAsHtmlResponse(reactElement: ReactElement) {
-    return `<!DOCTYPE html>${renderToStaticMarkup(reactElement)}`;
+function renderVNodeAsHtmlResponse(vNode: VNode) {
+    return `<!DOCTYPE html>${render(vNode)}`;
 }
 
 export function homeHandler(
     _request: Request,
-    _h: ResponseToolkit,
+    _responseToolkit: ResponseToolkit,
 ) {
-    return renderReactElementAsHtmlResponse(<Home />);
+    return renderVNodeAsHtmlResponse(<Home />);
 }
 
 export function notFoundHandler(
     request: Request,
-    h: ResponseToolkit,
+    responseToolkit: ResponseToolkit,
 ) {
     // If request path ends in “/index.html”, redirect to same path
     // without “index.html”
@@ -64,14 +65,14 @@ export function notFoundHandler(
     ) {
         const pathWithoutIndexHtml = pathFollowedByIndexHtmlRegExp[1];
 
-        return h
+        return responseToolkit
             .redirect(pathWithoutIndexHtml)
             .code(301);
     }
 
-    const responseHtml = renderReactElementAsHtmlResponse(<Error />);
+    const responseHtml = renderVNodeAsHtmlResponse(<Error />);
 
-    return h
+    return responseToolkit
         .response(responseHtml)
         .code(404);
 }

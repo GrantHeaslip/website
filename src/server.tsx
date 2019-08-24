@@ -69,7 +69,7 @@ async function start() {
     server.route(routes);
 
     // Add canonical protocol+host redirect extension function
-    server.ext('onPostHandler', (request, h) => {
+    server.ext('onPostHandler', (request, responseToolkit) => {
         const requestProtocol = request.headers['x-forwarded-proto'] || 'http';
         const requestHost = request.info.host;
 
@@ -82,30 +82,30 @@ async function start() {
                 requestProtocol !== config.canonicalProtocol
             )
         ) {
-            return h.redirect(`${config.canonicalProtocol}://${config.canonicalHost}${request.url.pathname}${request.url.search}`);
+            return responseToolkit.redirect(`${config.canonicalProtocol}://${config.canonicalHost}${request.url.pathname}${request.url.search}`);
         }
 
         // request.setUrl('/test');
-        return h.continue;
+        return responseToolkit.continue;
     });
 
 
     // Intercept Inert’s directory handler JSON errors and render error view
     // instead. This feels like a bad solution, but it appears to be the only
     // way: https://github.com/hapijs/inert/issues/41
-    server.ext('onPreResponse', async (request, h) => {
+    server.ext('onPreResponse', async (request, responseToolkit) => {
         if ( !(request.response instanceof Boom) ) {
-            return h.continue;
+            return responseToolkit.continue;
         }
 
         const boomError = request.response;
 
         // @ts-ignore (Boom types appear to be missing typeof)
         if ([Boom.notFound, Boom.forbidden].includes(boomError.typeof)) {
-            return notFoundHandler(request, h);
+            return notFoundHandler(request, responseToolkit);
         }
 
-        return h.continue;
+        return responseToolkit.continue;
     });
 
     // Start server

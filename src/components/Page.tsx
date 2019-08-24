@@ -1,4 +1,4 @@
-import React, { ReactNode } from "react";
+import { h, ComponentChildren } from 'preact';
 
 import { css } from 'linaria';
 
@@ -42,7 +42,7 @@ export function Page({
     children,
     title = null,
 }: {
-    children: ReactNode
+    children: ComponentChildren;
     title?: string | null;
 }) {
     return <Layout title={title}>
