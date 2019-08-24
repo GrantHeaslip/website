@@ -6,7 +6,5 @@ dist/
 node_modules/
 rev-manifest.json
 scratch.*
-src-build/
 static/css/
-static-build/
 temp/
