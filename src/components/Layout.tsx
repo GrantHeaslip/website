@@ -87,37 +87,37 @@ export function Layout({
 }) {
     const formattedTitle = (
         typeof title === 'string'
-            ? `${title} — Grant Heaslip`
+            ? `${title} — Grant Heaslip` // eslint-disable-line no-irregular-whitespace
             : 'Grant Heaslip'
     );
 
-    return <html lang="en-CA" dir="ltr">
+    return <html lang='en-CA' dir='ltr'>
         <head>
             <meta charSet='utf-8' />
 
             <meta name='website:version' content='1.0.5' />
 
-            <meta name="viewport" content="width=device-width, initial-scale=1" />
+            <meta name='viewport' content='width=device-width, initial-scale=1' />
 
-            <link rel="stylesheet" type="text/css" media="screen" href={state.websiteCssPath} />
+            <link rel='stylesheet' type='text/css' media='screen' href={state.websiteCssPath} />
 
             <title>{formattedTitle}</title>
 
             {/* ================
             ===== Favicons =====
             ================ */}
-            <link rel="apple-touch-icon" sizes="180x180" href={appleTouchIcon180x180Png} />
-            <link rel="icon" type="image/png" sizes="32x32" href={favicon32x32Png} />
-            <link rel="icon" type="image/png" href={favicon194x194Png} sizes="194x194" />
-            <link rel="icon" type="image/png" href={androidChrome192x192Png} sizes="192x192" />
-            <link rel="icon" type="image/png" href={favicon16x16Png} sizes="16x16" />
-            <link rel="shortcut icon" href={faviconIco} />
+            <link rel='apple-touch-icon' sizes='180x180' href={appleTouchIcon180x180Png} />
+            <link rel='icon' type='image/png' sizes='32x32' href={favicon32x32Png} />
+            <link rel='icon' type='image/png' href={favicon194x194Png} sizes='194x194' />
+            <link rel='icon' type='image/png' href={androidChrome192x192Png} sizes='192x192' />
+            <link rel='icon' type='image/png' href={favicon16x16Png} sizes='16x16' />
+            <link rel='shortcut icon' href={faviconIco} />
 
             {/* =================
             ===== Manifests =====
             ================= */}
-            <link rel="manifest" href={manifestWebmanifest} />
-            <meta name="msapplication-config" content={browserconfigXml} />
+            <link rel='manifest' href={manifestWebmanifest} />
+            <meta name='msapplication-config' content={browserconfigXml} />
         </head>
         <body>
             <div className={centred}>
@@ -125,4 +125,4 @@ export function Layout({
             </div>
         </body>
     </html>;
-};
+}

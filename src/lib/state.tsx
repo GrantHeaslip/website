@@ -8,7 +8,7 @@ interface State {
     websiteCssPath: string;
 }
 
-export let state: State = {
+export const state: State = {
     appVersion: null,
     hashedFilePaths: {},
     websiteCssPath: '',

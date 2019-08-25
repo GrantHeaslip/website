@@ -50,4 +50,4 @@ export function Page({
             {children}
         </main>
     </Layout>;
-};
+}
