@@ -14,10 +14,12 @@
     },
     "main": "server.js",
     "scripts": {
+        "build": "npm run type-check && npm run bundle-production",
         "heroku-local": "heroku local -f Procfile",
         "heroku-local-debug": "heroku local -f Procfile-debug",
         "heroku-local-dev": "heroku local -f Procfile-dev",
         "start": "node dist/website-server.bundle.js",
+        "type-check": "./node_modules/.bin/tsc --noEmit",
         "bundle-development": "webpack --mode=development",
         "bundle-development-watch": "webpack --mode=development --watch",
         "bundle-production": "webpack --mode=production"
@@ -55,7 +57,7 @@
         "preact": "^8.5.2",
         "preact-render-to-string": "^4.1.0",
         "throng": "^4.0.0",
-        "typescript": "^3.5.2",
+        "typescript": "^3.5.3",
         "webpack": "^4.39.2",
         "webpack-cli": "^3.3.7"
     },
