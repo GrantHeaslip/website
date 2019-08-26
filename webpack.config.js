@@ -3,6 +3,7 @@ const path = require('path');
 const AssetsPlugin = require('assets-webpack-plugin')
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
+const { DuplicatesPlugin } = require("inspectpack/plugin");
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const webpack = require('webpack');
 
@@ -46,6 +47,9 @@ module.exports = function(env, argv) {
             ]),
             new MiniCssExtractPlugin({
                 filename: 'static/assets/css/website-[contenthash].css',
+            }),
+            new DuplicatesPlugin({
+                verbose: false,
             }),
         ],
         optimization: {
