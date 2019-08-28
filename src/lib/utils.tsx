@@ -1,7 +1,5 @@
 import fs from 'fs';
 
-import { state } from './state';
-
 export function getAppVersion(): Promise<string> {
     return new Promise(function (resolve, reject) {
         fs.readFile('./package.json', 'utf8', function (err, data) {
@@ -29,10 +27,4 @@ export function getJsonFile(filePath: string): object {
             }
         });
     });
-}
-
-export function staticPath(fileName: string): string {
-    const hashedFileName = state.hashedFilePaths[fileName] || fileName;
-
-    return `/static/${hashedFileName}`;
 }

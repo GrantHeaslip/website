@@ -1,7 +1,5 @@
 import 'core-js/es7';
 
-import path from 'path';
-
 import Boom from '@hapi/boom';
 import hapi from '@hapi/hapi';
 import inert from '@hapi/inert';
@@ -9,10 +7,12 @@ import throng from 'throng';
 
 import { config } from './lib/config';
 import { routes, notFoundHandler } from './lib/routes';
-import { state, HashedFilePaths } from './lib/state';
+import { state } from './lib/state';
 import { getAppVersion, getJsonFile } from './lib/utils';
 
-if (config.env === 'development') {
+console.log(config.buildEnv);
+
+if (config.buildEnv === 'development') {
     start();
 } else {
     throng({
@@ -28,7 +28,7 @@ function startMaster() {
 }
 
 async function start() {
-    if (config.env == 'development') {
+    if (config.buildEnv == 'development') {
         console.info('Starting in development mode.');
     } else {
         console.info('Starting in production mode.');
@@ -54,11 +54,6 @@ async function start() {
     // Register plugins
     await server.register(inert);
 
-    // Load state.hashedFilePaths from temp/rev-manifest.json
-    if (config.env !== 'development') {
-        state.hashedFilePaths = await getJsonFile('temp/rev-manifest.json') as HashedFilePaths;
-    }
-
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const webpackAssets = await getJsonFile('temp/webpack-assets.json') as any;
 
@@ -75,7 +70,7 @@ async function start() {
         const requestHost = request.info.host;
 
         if (
-            config.env !== 'development' &&
+            config.buildEnv === 'production' &&
             typeof config.canonicalHost !== 'undefined' &&
             typeof config.canonicalProtocol !== 'undefined' &&
             (

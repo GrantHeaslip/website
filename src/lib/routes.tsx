@@ -1,7 +1,6 @@
 import {
     ResponseToolkit,
     Request,
-    RouteOptionsCache,
     ServerRoute,
 } from '@hapi/hapi';
 import {
@@ -10,34 +9,8 @@ import {
 } from 'preact';
 import { render } from 'preact-render-to-string';
 
-import { config } from './config';
 import { Error } from '../components/Error';
 import { Home } from '../components/Home';
-
-const hashedStaticFileCacheOptions: RouteOptionsCache = {
-    privacy: 'public',
-    expiresIn: 31536000000,
-    statuses: [200],
-    otherwise: 'no-cache',
-};
-
-const unhashedStaticFileCacheOptions: RouteOptionsCache = {
-    privacy: 'public',
-    expiresIn: 86400000,
-    statuses: [200],
-    otherwise: 'no-cache',
-};
-
-function getCanonicalUrl(request: Request) {
-    if (
-        typeof config.canonicalHost === 'undefined' ||
-        typeof config.canonicalProtocol === 'undefined'
-    ) {
-        return null;
-    } else {
-        return `${config.canonicalProtocol}://${config.canonicalHost}${request.url.pathname}`;
-    }
-}
 
 function renderVNodeAsHtmlResponse(vNode: VNode) {
     return `<!DOCTYPE html>${render(vNode)}`;
@@ -96,7 +69,12 @@ export const routes: Array<ServerRoute> = [
             },
         },
         options: {
-            cache: hashedStaticFileCacheOptions,
+            cache: {
+                privacy: 'public',
+                expiresIn: 31536000000,
+                statuses: [200],
+                otherwise: 'no-cache',
+            },
         },
     },
 ];
