@@ -5,20 +5,8 @@ module.exports = {
         es6: true,
         node: true,
     },
-    parser: "@typescript-eslint/parser",
-    parserOptions: {
-        ecmaFeatures: {
-            jsx: true
-        },
-        ecmaVersion: 2017,
-        project: './tsconfig.json',
-        sourceType: 'module',
-    },
     extends: [
         'eslint:recommended',
-        'plugin:@typescript-eslint/eslint-recommended',
-        'plugin:@typescript-eslint/recommended',
-        'plugin:import/typescript',
     ],
     plugins: [
         'import',
@@ -31,10 +19,6 @@ module.exports = {
         'class-methods-use-this': 'off',
         'import/prefer-default-export': 'off',
         'import/no-default-export': 'error',
-        'jsx-quotes': [
-            'error',
-            'prefer-single',
-        ],
         'linebreak-style': [
             'error',
             'unix',
@@ -56,29 +40,65 @@ module.exports = {
             'warn',
             'single',
         ],
-        '@typescript-eslint/array-type': [
+        'semi': [
             'error',
-            {
-                "default": "generic",
-            },
+            'always',
         ],
-        '@typescript-eslint/ban-ts-ignore': 'off',
-        '@typescript-eslint/explicit-function-return-type': 'off',
-        '@typescript-eslint/no-unused-vars': 'off',
-        '@typescript-eslint/no-use-before-define': 'off',
     },
     settings: {
         'import/extensions': [
             '.js',
             '.jsx',
-            '.ts',
-            '.tsx',
         ],
-        'import/parsers': {
-            '@typescript-eslint/parser': [
-                '.ts',
-                '.tsx',
-            ],
-        },
     },
+    overrides: [
+        {
+            files: [
+                '*.ts',
+                '*.tsx',
+            ],
+            extends: [
+                'plugin:@typescript-eslint/eslint-recommended',
+                'plugin:@typescript-eslint/recommended',
+                'plugin:import/typescript',
+            ],
+            parserOptions: {
+                ecmaFeatures: {
+                    jsx: true
+                },
+                ecmaVersion: 2017,
+                project: './tsconfig.json',
+            },
+            rules: {
+                'jsx-quotes': [
+                    'warn',
+                    'prefer-single',
+                ],
+                '@typescript-eslint/array-type': [
+                    'error',
+                    {
+                        "default": "generic",
+                    },
+                ],
+                '@typescript-eslint/ban-ts-ignore': 'off',
+                '@typescript-eslint/explicit-function-return-type': 'off',
+                '@typescript-eslint/no-unused-vars': 'off',
+                '@typescript-eslint/no-use-before-define': 'off',
+            },
+            settings: {
+                'import/extensions': [
+                    '.js',
+                    '.jsx',
+                    '.ts',
+                    '.tsx',
+                ],
+                'import/parsers': {
+                    '@typescript-eslint/parser': [
+                        '.ts',
+                        '.tsx',
+                    ],
+                },
+            },
+        },
+    ],
 };

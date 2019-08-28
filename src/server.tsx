@@ -59,6 +59,7 @@ async function start() {
         state.hashedFilePaths = await getJsonFile('temp/rev-manifest.json') as HashedFilePaths;
     }
 
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const webpackAssets = await getJsonFile('temp/webpack-assets.json') as any;
 
     state.websiteCssPath = (

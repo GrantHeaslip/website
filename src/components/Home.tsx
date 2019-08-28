@@ -3,6 +3,7 @@ import { h } from 'preact';
 import { Page } from './Page';
 
 export function Home() {
+    /* eslint-disable max-len */
     return <Page>
         <h1>Grant Heaslip</h1>
 
