@@ -35,7 +35,8 @@ module.exports = function(env, argv) {
                 BUILD_ENV: argv.mode,
             }),
             new AssetsPlugin({
-                filename: 'temp/webpack-assets.json',
+                path: 'temp',
+                filename: 'webpack-assets.json',
             }),
             new CleanWebpackPlugin(),
             new CopyWebpackPlugin([
