@@ -57,6 +57,7 @@ async function start() {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const webpackAssets = await getJsonFile('temp/webpack-assets.json') as any;
 
+    // eslint-disable-next-line require-atomic-updates
     state.websiteCssPath = (
         webpackAssets.main.css.replace(/^\/static/, '')
     );

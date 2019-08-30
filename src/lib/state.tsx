@@ -3,11 +3,11 @@ export interface HashedFilePaths {
 }
 
 interface State {
-    appVersion: string | null;
+    appVersion: string;
     websiteCssPath: string;
 }
 
 export const state: State = {
-    appVersion: null,
+    appVersion: '',
     websiteCssPath: '',
 };
