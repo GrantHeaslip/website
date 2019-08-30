@@ -1,5 +1,24 @@
 # website changelog
 
+## 1.1.0-rc.1 [2019-08-30]
+
+### Additions
+
+* Added basic dark mode support via the [`prefers-color-scheme` media feature](https://developer.mozilla.org/en-US/docs/Web/CSS/@media/prefers-color-scheme) and [CSS custom properties](https://developer.mozilla.org/en-US/docs/Web/CSS/Using_CSS_custom_properties).
+
+### Changes
+
+* Ported to TypeScript and added typings.
+* Rewrote views using server-rendered React components.
+* Moved all CSS into components using [Linaria](https://github.com/callstack/linaria).
+* Replaced Gulp build script with Webpack.
+* Switched to Yarn for package management.
+* Updated packages.
+
+### Fixes
+
+* 404 pages now have a “404 — Grant Heaslip” document title. Previously they had the same title as the homepage.
+
 ## 1.0.5 [2018-07-26]
 
 ### Changes
@@ -29,7 +48,7 @@ Contrived release to test deployment.
 * Updated packages.
 
 ### Fixes
-* Requests for non-existant static files now return an error view rather than a raw JSON error object.
+* Requests for non-existent static files now return an error view rather than a raw JSON error object.
 
 ## 1.0.0 [2018-01-09]
 
